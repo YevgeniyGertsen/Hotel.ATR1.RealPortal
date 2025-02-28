@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Home Page || Hotel ATR</title>
-    <meta name="description" content="">
+    <title>@ViewData["Title"] || Hotel ATR</title>
+    <meta name="description" content="@ViewData["Description"]">
+    <meta name="keywords" content="@ViewData["Keywords"]">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Favicon Icon -->
@@ -40,6 +42,9 @@
                         <div class="header-contact">
                             <span class="text-theme">Contact:</span>
                             <span>0088-234-675-827</span>
+                            <span> | </span>
+                            <span class="text-theme">City:</span>
+                            <span style="cursor: pointer" id="userCity">Almaty</span>                            
                         </div>
                         <div class="header-links">
                             <a href="https://www.facebook.com/"><i class="zmdi zmdi-facebook"></i></a>
@@ -104,7 +109,6 @@
         </div>
     </section>
     <!-- Background Area End -->
-
     @RenderBody()
 
     <!-- Footer Area Start -->
@@ -202,6 +206,30 @@
         <!-- Footer Bottom Area End -->
     </footer>
     <!-- Footer Area End -->
+    <!-- Модальное окно -->
+    <div class="modal fade contact-form" id="cityModal" tabindex="-1" role="dialog" aria-labelledby="cityModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="cityModalLabel">Select a city</h4>
+                </div>
+                <div class="modal-body">
+                    <select id="citySelect" class="form-control">
+                        <option value="Almaty">Almaty</option>
+                        <option value="Astana">Astana</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" 
+                            onclick="SaveSelectCity()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- All js here -->
     <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
@@ -218,6 +246,41 @@
     <script src="~/js/plugins.js"></script>
 
     @RenderSection("Scripts", false)
+
+    <script>
+
+        function SaveSelectCity()
+        {
+            $.ajax({
+                url: 'home/SetCity',
+                type: 'GET',
+                data: { city: $("#citySelect").val() },
+                dataType: "json",
+                success: function (responce) {
+                    $('#cityModal').modal('hide');
+                    $('#userCity').html(responce);
+                },
+                error: function (xhr, status, error) {
+                    alert("Ошибка при запросе к методу: " + error);
+                }
+            });
+        }
+        $(document).ready(function () 
+        { 
+            var userCity = '@Context.Request.Cookies["city"]';
+            if (userCity.trim() !== "") {
+                $('#userCity').html(userCity);
+            }
+            else 
+            { 
+                $('#cityModal').modal('show');
+            }
+
+            $('#userCity').on("click", function () {
+                $('#cityModal').modal('show');               
+            });
+        });
+    </script>
 
     <script src="~/js/main.js"></script>
 </body>

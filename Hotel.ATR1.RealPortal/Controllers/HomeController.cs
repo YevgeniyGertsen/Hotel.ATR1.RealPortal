@@ -1,4 +1,4 @@
-using Hotel.ATR1.RealPortal.Models;
+﻿using Hotel.ATR1.RealPortal.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +7,49 @@ namespace Hotel.ATR1.RealPortal.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IEnumerable<IMessage> _message;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IEnumerable<IMessage> message)
         {
             _logger = logger;
+            _message = message;
+        }
+        
+        public IActionResult Contact()
+        {
+            Response.Cookies.Delete("city");
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddMessage(Message userMessage)
+        {
+            _logger.LogInformation("шаг 1. ({method}) Попытка отправки сообщения", "AddMessage");
+            _logger.LogInformation("шаг 2. ({method}) Проверка валидности формы", "AddMessage");
+            if (ModelState.IsValid)
+            {
+                _logger.LogError("шаг 3. ({method}) Форма корректная", "AddMessage");
+            }
+
+            _logger.LogInformation("шаг 4. ({method}) уведомления пользователю {user}", 
+                "AddMessage", userMessage.name);
+            foreach (var item in _message)
+            {
+                item.SendMessage(userMessage.email, userMessage.message);
+            }          
+
+            return RedirectToAction("Contact", "home");
         }
 
         //[HttpGet]
         public IActionResult Index()
         {
+            _logger.LogCritical("Index > LogCritical");
+            _logger.LogError("Index > LogError");
+            _logger.LogWarning("Index > LogWarning");
+            _logger.LogInformation("Index > LogInformation");
+
             return View();
         }
 
@@ -25,21 +59,22 @@ namespace Hotel.ATR1.RealPortal.Controllers
             return View();
         }
 
-        //[HttpGet]
-        public IActionResult Contact()
-        {
-            return View();
-        }
+        
 
-        [HttpPost]
-        //public IActionResult AddMessage(string name, string email, string message)
-        public IActionResult AddMessage(Message userMessage)
+        public JsonResult SetCity(string city)
         {
-            var data = Request.Form;
-            //var data = Request.Form["name"];
+            try
+            {
+                CookieOptions options = new CookieOptions();
+                options.Expires = DateTime.Now.AddMilliseconds(100000);
 
-            return RedirectToAction("Contact","home");
-            //return View();
+                Response.Cookies.Append("city", city, options);
+                return Json(city);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
     }
 }

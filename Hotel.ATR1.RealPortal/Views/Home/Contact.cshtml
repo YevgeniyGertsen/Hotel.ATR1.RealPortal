@@ -1,4 +1,12 @@
-﻿<!-- Google Map Area Start -->
+﻿@{
+    ViewData["Title"] = "Contact Page";
+    ViewData["Description"] = "Page for contacting the hotel administration";
+    ViewData["Keywords"] = "hotel, rooms, inn, promotion, discounts";
+
+    ViewData["NamePage"] = "Contact Us";
+    ViewData["DescriptionPage"] = "A quality room of hotel ATR with sea or mountain view";
+}
+<!-- Google Map Area Start -->
 <div class="google-map-area">
     <!--  Map Section -->
     <div id="contacts" class="map-area">
@@ -40,10 +48,10 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <input type="text" name="name" placeholder="Enter Name">
+                            <input type="text"  name="name" placeholder="Enter Name">
                         </div>
                         <div class="col-md-6">
-                            <input type="email" name="email" placeholder="Enter Email">
+                            <input type="text" name="email" placeholder="Enter Email">
                         </div>
                         <div class="col-md-12">
                             <textarea name="message" cols="30" rows="10" placeholder="Message here"></textarea>
