@@ -11,6 +11,7 @@ namespace Hotel.ATR1.RealPortal.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IEnumerable<IMessage> _message;
+        private readonly IStringLocalizer<HomeController> _localizer;
 
         public HomeController(ILogger<HomeController> logger, 
             IEnumerable<IMessage> message, 
@@ -18,6 +19,7 @@ namespace Hotel.ATR1.RealPortal.Controllers
         {
             _logger = logger;
             _message = message;
+            _localizer = localizer;
         }
 
         public IActionResult Contact()

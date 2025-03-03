@@ -213,6 +213,15 @@
             //     $('#cityModal').modal('show');
             // }
 
+            $('#CultureList').on('change', function () {
+                var selectedValue = $(this).val();
+
+                var culture = "/?culture=" + selectedValue + "&ui-culture=" + selectedValue;
+                document.getElementById("cultureForm").action = culture;
+                document.getElementById("cultureForm").submit();
+            });
+
+
             $('#userCity').on("click", function () {
                 $('#cityModal').modal('show');
             });

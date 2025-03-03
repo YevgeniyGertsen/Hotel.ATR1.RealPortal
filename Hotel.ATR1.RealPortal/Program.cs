@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,19 @@ builder.Services
 // Добавляем службы локализации
 builder.Services.AddLocalization(option => option.ResourcesPath = "Resources");
 
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCulture = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("kk-KZ"),
+        new CultureInfo("ru-RU"),
+        new CultureInfo("uz-Latn-UZ"),
+    };
+    options.DefaultRequestCulture = new RequestCulture(culture: "kk-KZ", uiCulture: "kk-KZ");
+    options.SupportedCultures = supportedCulture;
+    options.SupportedUICultures = supportedCulture;
+});
 
 #region Авторизация
 builder.Services

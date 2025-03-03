@@ -23,6 +23,7 @@
     <Folder Include="Logs\" />
     <Folder Include="NewFolder\" />
     <Folder Include="Resources\Controllers\" />
+    <Folder Include="Resources\Views\Account\" />
   </ItemGroup>
 
 </Project>
