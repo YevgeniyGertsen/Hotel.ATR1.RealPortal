@@ -1,29 +1,37 @@
-using Hotel.ATR1.RealPortal.Models;
+﻿using Hotel.ATR1.RealPortal.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization.Routing;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services
+    .AddControllersWithViews()
+    .AddViewLocalization();
 
+// Добавляем службы локализации
+builder.Services.AddLocalization(option => option.ResourcesPath = "Resources");
+
+
+#region Авторизация
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
 
 builder.Services
     .ConfigureApplicationCookie(option => option.LoginPath = "/Account/Login");
+#endregion
 
-
+#region DI
 builder.Services.AddScoped<IMessage, EmailSender>();
 builder.Services.AddScoped<IMessage, SmsSender>();
+#endregion
 
-//builder.Logging.ClearProviders();
-//builder.Logging.AddConsole();
-
-
-//connection = data source=178.89.186.221, 1434;initial catalog=h ......
+#region Logging
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 Log.Logger = new LoggerConfiguration()
@@ -45,12 +53,21 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Host.UseSerilog();
-
+#endregion
 
 
 
 
 var app = builder.Build();
+
+var supportedCulture = new[] { "en-US", "kk-KZ", "ru-RU", "uz-Latn-UZ" };
+var locaizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("kk-KZ")
+    .AddSupportedCultures(supportedCulture)
+    .AddSupportedUICultures(supportedCulture);
+
+app.UseRequestLocalization(locaizationOptions);
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

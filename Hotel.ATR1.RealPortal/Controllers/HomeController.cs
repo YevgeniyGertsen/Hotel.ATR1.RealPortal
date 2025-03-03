@@ -1,20 +1,25 @@
 ﻿using Hotel.ATR1.RealPortal.Models;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Diagnostics;
 
 namespace Hotel.ATR1.RealPortal.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IEnumerable<IMessage> _message;
 
-        public HomeController(ILogger<HomeController> logger, IEnumerable<IMessage> message)
+        public HomeController(ILogger<HomeController> logger, 
+            IEnumerable<IMessage> message, 
+            IStringLocalizer<HomeController> localizer)
         {
             _logger = logger;
             _message = message;
         }
-        
+
         public IActionResult Contact()
         {
             Response.Cookies.Delete("city");
@@ -32,12 +37,12 @@ namespace Hotel.ATR1.RealPortal.Controllers
                 _logger.LogError("шаг 3. ({method}) Форма корректная", "AddMessage");
             }
 
-            _logger.LogInformation("шаг 4. ({method}) уведомления пользователю {user}", 
+            _logger.LogInformation("шаг 4. ({method}) уведомления пользователю {user}",
                 "AddMessage", userMessage.name);
             foreach (var item in _message)
             {
                 item.SendMessage(userMessage.email, userMessage.message);
-            }          
+            }
 
             return RedirectToAction("Contact", "home");
         }
@@ -58,8 +63,6 @@ namespace Hotel.ATR1.RealPortal.Controllers
         {
             return View();
         }
-
-        
 
         public JsonResult SetCity(string city)
         {

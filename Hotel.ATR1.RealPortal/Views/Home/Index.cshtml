@@ -1,13 +1,46 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-    ViewData["Description"] = "The best rooms in Central Asia, at affordable prices";
-    ViewData["Keywords"] = "hotel, rooms, inn, promotion, discounts";
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
 
-    Layout = "_LayoutBase";
+@inject IOptions<RequestLocalizationOptions> LocOptions
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 }
 
 
 <div class="text-center">
-    <h1 class="display-4">Welcome1111</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table class="table culture-table">
+        <tr>
+            <td>Culture</td>
+            <td>
+                @requestCulture.RequestCulture.Culture.Name
+            </td>
+        </tr>
+        <tr>
+            <td>UICulture</td>
+            <td>
+                @requestCulture.RequestCulture.UICulture.Name
+            </td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td>
+                @DateTime.Now.ToLongDateString()
+            </td>
+        </tr>
+        <tr>
+            <td>Currency</td>
+            <td>
+                @(98765.00.ToString("c"))
+            </td>
+        </tr>
+        <tr>
+            <td>Number</td>
+            <td>
+                @(987.87m.ToString("F2"))
+            </td>
+        </tr>
+    </table>
+
+
 </div>

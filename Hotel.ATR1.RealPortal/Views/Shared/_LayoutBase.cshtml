@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -40,19 +40,21 @@
                 <div class="col-lg-7 col-md-8 col-sm-8 hidden-xs">
                     <div class="header-top fix">
                         <div class="header-contact">
-                            <span class="text-theme">Contact:</span>
-                            <span>0088-234-675-827</span>
-                            <span> | </span>
                             <span class="text-theme">City:</span>
-                            <span style="cursor: pointer" id="userCity">Almaty</span>                            
+                            <span style="cursor: pointer" id="userCity">Almaty</span>
+
+                            @Html.Partial("_lang")
                         </div>
+
                         <div class="header-links">
                             <a href="https://www.facebook.com/"><i class="zmdi zmdi-facebook"></i></a>
                             <a href="https://twitter.com/"><i class="zmdi zmdi-twitter"></i></a>
                             <a href="https://plus.google.com/"><i class="zmdi zmdi-google-plus"></i></a>
                             <a href="https://www.instagram.com/"><i class="zmdi zmdi-instagram"></i></a>
                             <a href="https://www.pinterest.com/"><i class="zmdi zmdi-pinterest"></i></a>
+
                         </div>
+
                     </div>
                     <!-- Mainmenu Start -->
                     @Html.Partial("TopMenu")
@@ -224,8 +226,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-secondary" 
-                            onclick="SaveSelectCity()">Save changes</button>
+                    <button type="button" class="btn btn-secondary"
+                            onclick="SaveSelectCity()">
+                        Save changes
+                    </button>
                 </div>
             </div>
         </div>
@@ -248,9 +252,7 @@
     @RenderSection("Scripts", false)
 
     <script>
-
-        function SaveSelectCity()
-        {
+        function SaveSelectCity() {
             $.ajax({
                 url: 'home/SetCity',
                 type: 'GET',
@@ -265,19 +267,19 @@
                 }
             });
         }
-        $(document).ready(function () 
-        { 
-            var userCity = '@Context.Request.Cookies["city"]';
-            if (userCity.trim() !== "") {
-                $('#userCity').html(userCity);
-            }
-            else 
-            { 
-                $('#cityModal').modal('show');
-            }
+
+        $(document).ready(function () {
+            // var userCity = 'Context.Request.Cookies["city"]';
+            // if (userCity.trim() !== "") {
+            //     $('#userCity').html(userCity);
+            // }
+            // else
+            // {
+            //     $('#cityModal').modal('show');
+            // }
 
             $('#userCity').on("click", function () {
-                $('#cityModal').modal('show');               
+                $('#cityModal').modal('show');
             });
         });
     </script>
