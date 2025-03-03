@@ -120,4 +120,7 @@
   <data name="Home" xml:space="preserve">
     <value>ГЛАВНАЯ</value>
   </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>КОМНАТЫ</value>
+  </data>
 </root>

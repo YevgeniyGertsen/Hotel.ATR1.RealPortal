@@ -120,4 +120,7 @@
   <data name="Home" xml:space="preserve">
     <value>ASOSIY SAHIFA</value>
   </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>BOLME</value>
+  </data>
 </root>

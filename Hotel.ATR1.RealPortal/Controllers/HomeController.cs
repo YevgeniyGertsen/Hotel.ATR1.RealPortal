@@ -6,15 +6,15 @@ using System.Diagnostics;
 
 namespace Hotel.ATR1.RealPortal.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IEnumerable<IMessage> _message;
         private readonly IStringLocalizer<HomeController> _localizer;
 
-        public HomeController(ILogger<HomeController> logger, 
-            IEnumerable<IMessage> message, 
+        public HomeController(ILogger<HomeController> logger,
+            IEnumerable<IMessage> message,
             IStringLocalizer<HomeController> localizer)
         {
             _logger = logger;
@@ -80,6 +80,20 @@ namespace Hotel.ATR1.RealPortal.Controllers
             {
                 return Json(ex.Message);
             }
+        }
+
+        [HttpPost]
+        public JsonResult SetCulture(string culture)
+        {
+            var options = new CookieOptions();
+            options.Expires = DateTime.Now.AddMonths(1);
+
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                options);
+
+            return Json(culture);
         }
     }
 }

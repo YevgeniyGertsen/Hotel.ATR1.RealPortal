@@ -268,6 +268,18 @@
             });
         }
 
+        function SetCulture(selectedValue) {
+            $.ajax({
+                url: '/home/SetCulture',
+                data: { culture: selectedValue },
+                dataType: 'json',
+                type: 'POST',
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+
         $(document).ready(function () {
             // var userCity = 'Context.Request.Cookies["city"]';
             // if (userCity.trim() !== "") {
@@ -278,13 +290,31 @@
             //     $('#cityModal').modal('show');
             // }
 
+            //1 вариант
+            // $('#CultureList').on('change', function () {
+            //     var selectedValue = $(this).val();
+
+            //     var culture = "/?culture=" + selectedValue + "&ui-culture=" + selectedValue;
+            //     document.getElementById("cultureForm").action = culture;
+            //     document.getElementById("cultureForm").submit();
+            // });
+
+
+            //2ой вариант
             $('#CultureList').on('change', function () {
                 var selectedValue = $(this).val();
 
-                var culture = "/?culture=" + selectedValue + "&ui-culture=" + selectedValue;
-                document.getElementById("cultureForm").action = culture;
-                document.getElementById("cultureForm").submit();
+                $.ajax({
+                    url: '/home/SetCulture',
+                    data: { culture: selectedValue },
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function () {
+                        location.reload();
+                    }
+                });
             });
+
 
 
             $('#userCity').on("click", function () {

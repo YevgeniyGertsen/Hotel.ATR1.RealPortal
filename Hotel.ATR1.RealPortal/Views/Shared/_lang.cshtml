@@ -1,20 +1,9 @@
-﻿@using Microsoft.AspNetCore.Builder
-@using Microsoft.AspNetCore.Localization
-@using Microsoft.Extensions.Options
-
-@inject IOptions<RequestLocalizationOptions> LocOptions
-@{
-    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
-    var cultureItems = LocOptions.Value.SupportedUICultures
-        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
-        .ToList();
-}
-<span> | </span>
+﻿<span> | </span>
 <span class="text-theme">Lang:</span>
-<span>
-    <form id="cultureForm" asp-action="Index" method="post">
-        <select id="CultureList"
-                asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
-        </select>
-    </form>
-</span>
+<span class="CultureList" style="cursor: pointer" onclick="SetCulture('en-US')">en</span>
+<span> | </span>
+<span class="CultureList" style="cursor: pointer" onclick="SetCulture('kk-KZ')">kk</span>
+<span> | </span>
+<span class="CultureList" style="cursor: pointer" onclick="SetCulture('ru-RU')">ru</span>
+<span> | </span>
+<span class="CultureList" style="cursor: pointer" onclick="SetCulture('uz-Latn-UZ')">uz</span>
