@@ -1,7 +1,10 @@
-﻿using Hotel.ATR1.RealPortal.Models;
+﻿using Hotel.ATR1.RealPortal.AppMiddlewares;
+using Hotel.ATR1.RealPortal.Filters;
+using Hotel.ATR1.RealPortal.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Options;
 using Serilog;
@@ -10,8 +13,16 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services.AddControllers(options => 
+//{
+//    options.Filters.Add<GlobalExceptionFilter>();
+//});
+
 builder.Services
-    .AddControllersWithViews()
+    .AddControllersWithViews(options =>
+    {
+        options.Filters.Add<GlobalExceptionFilter>();
+    })
     .AddViewLocalization();
 
 // Добавляем службы локализации
@@ -95,8 +106,34 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.Use(async (context, next) => 
+{
+    var currentHour = DateTime.Now.Hour;
+
+    if(currentHour >=13 && currentHour <14)
+    {
+        context.Response.Redirect("/Home/Contact");
+    }
+
+    await next.Invoke();
+});
+
+//app.Use(async (context, next) => {
+
+//    string str = string.Format("Запрос: {0} {1}",
+//        context.Request.Method,
+//        context.Request.Path);
+
+//    await next.Invoke();
+//});
+
+//app.UseMiddleware<UseLogerRequest>();
+
+app.UseTimeElapsed();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();

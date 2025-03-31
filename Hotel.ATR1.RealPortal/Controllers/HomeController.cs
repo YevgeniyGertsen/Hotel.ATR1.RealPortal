@@ -1,4 +1,5 @@
-﻿using Hotel.ATR1.RealPortal.Models;
+﻿using Hotel.ATR1.RealPortal.Filters;
+using Hotel.ATR1.RealPortal.Models;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -6,7 +7,7 @@ using System.Diagnostics;
 
 namespace Hotel.ATR1.RealPortal.Controllers
 {
-
+    [TimeElapsed]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -22,10 +23,10 @@ namespace Hotel.ATR1.RealPortal.Controllers
             _localizer = localizer;
         }
 
+        //[IEFilter]
         public IActionResult Contact()
         {
-            Response.Cookies.Delete("city");
-
+            //throw new Exception("Ошибка со страницы Contact ");
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace Hotel.ATR1.RealPortal.Controllers
             return RedirectToAction("Contact", "home");
         }
 
-        //[HttpGet]
+        //action -> OnActionExecuting
         public IActionResult Index()
         {
             _logger.LogCritical("Index > LogCritical");
@@ -58,6 +59,9 @@ namespace Hotel.ATR1.RealPortal.Controllers
             _logger.LogInformation("Index > LogInformation");
 
             return View();
+            //Result -> OnActionExecuting + OnActionExecuted
+
+            //action -> OnActionExecuted
         }
 
         //[HttpGet]
