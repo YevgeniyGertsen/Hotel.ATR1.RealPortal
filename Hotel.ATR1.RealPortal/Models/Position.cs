@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Hotel.ATR1.RealApi.Model
+﻿namespace Hotel.ATR1.RealPortal.Models
 {
-    [Table("atr3Position")]
     public class Position
     {
         public int Id { get; set; }

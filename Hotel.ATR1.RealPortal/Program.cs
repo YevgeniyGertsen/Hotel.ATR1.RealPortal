@@ -106,18 +106,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.Use(async (context, next) => 
-{
-    var currentHour = DateTime.Now.Hour;
-
-    if(currentHour >=13 && currentHour <14)
-    {
-        context.Response.Redirect("/Home/Contact");
-    }
-
-    await next.Invoke();
-});
-
 //app.Use(async (context, next) => {
 
 //    string str = string.Format("Запрос: {0} {1}",

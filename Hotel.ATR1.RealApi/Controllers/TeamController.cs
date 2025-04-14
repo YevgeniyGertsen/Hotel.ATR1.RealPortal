@@ -14,7 +14,6 @@ namespace Hotel.ATR1.RealApi.Controllers
             _db = db;
         }
 
-
         [HttpGet("getAllTeam")]
         public IEnumerable<Team> Get()
         {
