@@ -41,7 +41,6 @@ namespace Hotel.ATR1.RealApi.Controllers
             }
         }
 
-
         [HttpPost("createTeam")]
         public IActionResult Post([FromForm] Team team, IFormFile imagePath)
         {
@@ -65,7 +64,7 @@ namespace Hotel.ATR1.RealApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }          
         }
     }
