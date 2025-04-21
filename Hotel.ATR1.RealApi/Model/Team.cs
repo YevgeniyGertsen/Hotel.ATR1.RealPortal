@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Hotel.ATR1.RealApi.Model
 {
@@ -14,7 +15,6 @@ namespace Hotel.ATR1.RealApi.Model
         public string? MiddleName { get; set; } = null;
         public string? AboutTeam { get; set; } = null;
         public byte[]? ImagePath { get; set; } = null;
-
         public int PositionId { get; set; }
         public Position? Position { get; set; } = null;
     }

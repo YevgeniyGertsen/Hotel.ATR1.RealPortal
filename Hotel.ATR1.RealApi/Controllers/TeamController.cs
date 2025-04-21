@@ -1,11 +1,14 @@
 ﻿using Hotel.ATR1.RealApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.ATR1.RealApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TeamController : ControllerBase
     {
         private readonly AppDbContext _db;
@@ -15,11 +18,11 @@ namespace Hotel.ATR1.RealApi.Controllers
         }
 
         [HttpGet("getAllTeam")]
-        public IEnumerable<Team> Get()
+        public async Task<List<Team>> Get()
         {
             try
             {
-                return _db.Teams;
+                return await _db.Teams.Include(p => p.Position).ToListAsync();
             }
             catch
             {
@@ -28,11 +31,13 @@ namespace Hotel.ATR1.RealApi.Controllers
         }
 
         [HttpGet("getTeamById/{id:int}")]
-        public Team GetTeamById(int id)
+        public async Task<Team?> GetTeamById(int id)
         {
             try
             {
-                return _db.Teams.Find(id);
+                return await _db.Teams
+                                .Include(p => p.Position)
+                                .FirstOrDefaultAsync(f => f.Id == id);
             }
             catch
             {

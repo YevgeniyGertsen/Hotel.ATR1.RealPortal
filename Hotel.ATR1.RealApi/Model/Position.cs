@@ -11,7 +11,5 @@ namespace Hotel.ATR1.RealApi.Model
 
         public string? Name { get; set; } = null;
         public string? Description { get; set; } = null;
-
-        public ICollection<Team>? Teams { get; set; }
     }
 }

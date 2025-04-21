@@ -1,4 +1,6 @@
-﻿namespace Hotel.ATR1.RealPortal.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Hotel.ATR1.RealPortal.Models
 {
     public class Team
     {

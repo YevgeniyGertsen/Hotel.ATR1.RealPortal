@@ -15,9 +15,12 @@
 
             @foreach (Team team in Model)
             {
+
                 <div class="col-md-4 col-sm-4">
                     <div class="single-team">
-                        <div class="team-image"><img src="img/team/1.jpg" alt=""></div>
+                        <div class="team-image">
+                            <img src="data:image/jpe;base64,@Convert.ToBase64String(team.ImagePath)" />
+                        </div>
                         <div class="team-hover">
                             <h4>@team.FirstName @team.SecondName</h4>
                             <span class="block">(@team.Position?.Name)</span>
